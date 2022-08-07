@@ -1,5 +1,6 @@
-import type { Lang } from "../types";
+import type { Lang } from "../types.d.ts";
 
+// deno-fmt-ignore
 const lang: Lang = {
   separator: " ",
   none: "",

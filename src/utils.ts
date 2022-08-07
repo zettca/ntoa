@@ -1,6 +1,4 @@
-import type { Lang } from "./types";
-
-export const range = (num = 10, fn = (v, i) => i) => Array.from(Array(num), fn);
+import type { Lang } from "./types.d.ts";
 
 export const capitalize = (str: string) =>
   str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();

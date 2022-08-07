@@ -1,45 +1,33 @@
-import ntoa from "./ntoa";
+import { assertEquals } from "https://deno.land/std@0.151.0/testing/asserts.ts";
 
-/*
-range(12)
-  .map((i) => "1" + "123000000".repeat(i + 1))
-  .forEach((v) => console.log(v.length - 1, ntoa(v).join(" ")));
-*/
+import ntoa from "./mod.ts";
 
-describe("nota short scale", () => {
-  test("small numbers", () => {
+Deno.test("ntoa short scale", async (t) => {
+  await t.step("small numbers", () => {
     // units
-    // expect(ntoa("0").join(" ")).toBe("0");
-    expect(ntoa("1").join(" ")).toBe("1");
-    expect(ntoa("3").join(" ")).toBe("3");
+    assertEquals(ntoa("1").join(" "), "1");
+    assertEquals(ntoa("3").join(" "), "3");
 
     // dozens
-    expect(ntoa("30").join(" ")).toBe("30");
-    expect(ntoa("42").join(" ")).toBe("42");
-    expect(ntoa("69").join(" ")).toBe("69");
+    assertEquals(ntoa("30").join(" "), "30");
+    assertEquals(ntoa("42").join(" "), "42");
+    assertEquals(ntoa("69").join(" "), "69");
 
     // hundreds
-    expect(ntoa("123").join(" ")).toBe("123");
-    expect(ntoa("567").join(" ")).toBe("567");
+    assertEquals(ntoa("123").join(" "), "123");
+    assertEquals(ntoa("567").join(" "), "567");
   });
 
-  test("thousands", () => {
-    expect(ntoa("1234").join(" ")).toBe("1 Thousand 234");
-    expect(ntoa("4567").join(" ")).toBe("4 Thousand 567");
-    expect(ntoa("123487").join(" ")).toBe("123 Thousand 487");
-    expect(ntoa("432890").join(" ")).toBe("432 Thousand 890");
-  });
+  await t.step("small millions", () => {
+    assertEquals(ntoa(String(1 * 1000000)).join(" "), "1 Million");
+    assertEquals(ntoa(String(12 * 1000000)).join(" "), "12 Million");
+    assertEquals(ntoa(String(32 * 1000000)).join(" "), "32 Million");
+    assertEquals(ntoa(String(723 * 1000000)).join(" "), "723 Million");
 
-  test("small millions", () => {
-    expect(ntoa(String(1 * 1000000)).join(" ")).toBe("1 Million");
-    expect(ntoa(String(12 * 1000000)).join(" ")).toBe("12 Million");
-    expect(ntoa(String(32 * 1000000)).join(" ")).toBe("32 Million");
-    expect(ntoa(String(723 * 1000000)).join(" ")).toBe("723 Million");
-
-    expect(ntoa(String(BigInt(1000 ** 3))).join(" ")).toBe("1 Billion");
-    expect(ntoa(String(BigInt(1000 ** 4))).join(" ")).toBe("1 Trillion");
-    expect(ntoa(String(BigInt(1000 ** 5))).join(" ")).toBe("1 Quadrillion");
-    expect(ntoa(String(BigInt(1000 ** 6))).join(" ")).toBe("1 Quintillion");
+    assertEquals(ntoa(String(BigInt(1000 ** 3))).join(" "), "1 Billion");
+    assertEquals(ntoa(String(BigInt(1000 ** 4))).join(" "), "1 Trillion");
+    assertEquals(ntoa(String(BigInt(1000 ** 5))).join(" "), "1 Quadrillion");
+    assertEquals(ntoa(String(BigInt(1000 ** 6))).join(" "), "1 Quintillion");
     // from this way on converting from number to String/BigInt isn't safe 😔
   });
 });
