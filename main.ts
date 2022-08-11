@@ -11,11 +11,12 @@ function main() {
     throw new Error("Pass numbers as arguments");
   }
 
-  (numbers).forEach((number) => {
+  numbers.forEach((number) => {
     if (isNaN(parseInt(number))) {
-      console.error(`${number} is not a number`);
+      console.error(`"${number}" is not a number`);
+    } else {
+      console.log(ntoa(number));
     }
-    console.log(ntoa(number).join(" "));
   });
 }
 

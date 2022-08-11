@@ -1,9 +1,6 @@
 import { illions, splitN } from "./utils.ts";
-import type { Lang } from "./types.d.ts";
+import type { Lang, Scale } from "./types.d.ts";
 import defaultLang from "./lang/en.ts";
-
-export type Scale = number | "long" | "short" | "knuth";
-export type Options = { scale?: Scale; lang?: Lang };
 
 const scaleToNum = (scale: Scale) => {
   if (typeof scale === "number") return scale;
@@ -29,7 +26,11 @@ export default function ntoa(
   options?: { scale?: Scale; lang?: Lang },
 ) {
   const { scale = "short", lang = defaultLang } = options || {};
-  const inputParts = splitN(input, scaleToNum(scale));
 
-  return inputParts.map(printPart(lang)).filter(Boolean).reverse();
+  return splitN(input, scaleToNum(scale))
+    .reverse()
+    .map(printPart(lang))
+    .filter(Boolean)
+    .reverse()
+    .join(" ");
 }

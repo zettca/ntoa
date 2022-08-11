@@ -22,3 +22,6 @@ export type Lang = {
     huns: TS<10>;
   };
 };
+
+/** The number scale to use. https://en.wikipedia.org/wiki/Long_and_short_scales */
+export type Scale = number | "long" | "short" | "knuth";
