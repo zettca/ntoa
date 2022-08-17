@@ -16,10 +16,8 @@ const scaleToNum = (scale: Scale) => {
 };
 
 const printPart = (lang: Lang) =>
-  (str: string, idx: number) => {
-    if (!str || !Number(str)) return "";
-    return `${str} ${illions(idx, lang)}`.trim();
-  };
+  (val: string | number, idx: number) =>
+    (!val || !Number(val)) ? "" : `${val} ${illions(idx, lang)}`.trim();
 
 export default function ntoa(
   input: string | number,
@@ -28,7 +26,6 @@ export default function ntoa(
   const { scale = "short", lang = defaultLang } = options || {};
 
   return splitN(input, scaleToNum(scale))
-    .reverse()
     .map(printPart(lang))
     .filter(Boolean)
     .reverse()

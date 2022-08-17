@@ -17,7 +17,7 @@ export const splitAt = (str: string, index = 0) => {
  * @param partSize length of each part
  * @returns array of the parts, reversed
  */
-export const splitString = (input: string, partSize = 3): string[] => {
+export const splitString = (input: string, partSize = 3) => {
   const result = [];
 
   while (input.length > 0) {
@@ -40,7 +40,7 @@ export const splitNumber = (input: number) => {
     throw Error("Number too large for now 😔");
   }
 
-  return Number(input).toLocaleString("fullwide").split(",");
+  return Number(input).toLocaleString("fullwide").split(",").reverse();
 };
 
 /**
@@ -50,11 +50,9 @@ export const splitNumber = (input: number) => {
  * @returns array of the parts, reversed
  */
 export const splitN = (input: string | number, partSize = 3) => {
-  if (typeof input === "number" && partSize === 3) {
-    return splitNumber(input);
-  }
-
-  return splitString(String(input), partSize);
+  return typeof input === "number" && partSize === 3
+    ? splitNumber(input)
+    : splitString(String(input), partSize);
 };
 
 export const illionsPrefix = (index: number, lang: Lang) => {
