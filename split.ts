@@ -1,11 +1,3 @@
-import type { Lang } from "./types.d.ts";
-
-export const capitalize = (str: string) =>
-  str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-
-export const splitDigits = (digits: number, pad = 3) =>
-  [...String(digits).padStart(pad, "0")].map(Number);
-
 export const splitAt = (str: string, index = 0) => {
   const safeIndex = index > 0 ? index : 0;
   return [str.slice(0, safeIndex), str.slice(safeIndex)];
@@ -49,31 +41,8 @@ export const splitNumber = (input: number) => {
  * @param partSize length of each part
  * @returns array of the parts, reversed
  */
-export const splitN = (input: string | number, partSize = 3) => {
+export const split = (input: string | number, partSize = 3) => {
   return typeof input === "number" && partSize === 3
     ? splitNumber(input)
     : splitString(String(input), partSize);
-};
-
-export const illionsPrefix = (index: number, lang: Lang) => {
-  const { zeros, units, tens, huns } = lang.illions;
-
-  if (index > 999) throw Error("Number too large - names don't exist 😢");
-
-  const [h, t, u] = splitDigits(index);
-
-  if (h) return units[u] + tens[t] + huns[h].slice(0, -1); // centillion+
-  if (t) return units[u] + tens[t].slice(0, -1); // decillion+
-  if (u) return zeros[index];
-
-  throw Error("how did we get here? 🤔");
-};
-
-export const illions = (index: number, lang: Lang) => {
-  if (index === 0) return lang.none;
-  if (index === 1) return lang.thousand;
-
-  const prefix = illionsPrefix(index - 1, lang);
-
-  return capitalize(prefix + lang.illions.suffix);
 };

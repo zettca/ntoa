@@ -4,9 +4,11 @@ export type Tuple<
   R extends readonly T[] = [],
 > = R["length"] extends N ? R : Tuple<T, N, readonly [T, ...R]>;
 
+/** Tuple of `N` strings */
 export type TS<N extends number> = Tuple<string, N>;
 
-export type Lang = {
+/** The object of number translations */
+export type LangObj = {
   separator: string;
   none: string;
   zero: string;
@@ -22,6 +24,3 @@ export type Lang = {
     huns: TS<10>;
   };
 };
-
-/** The number scale to use. https://en.wikipedia.org/wiki/Long_and_short_scales */
-export type Scale = number | "long" | "short" | "knuth";

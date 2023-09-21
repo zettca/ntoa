@@ -1,6 +1,13 @@
-import { illions, splitN } from "./utils.ts";
-import type { Lang, Scale } from "./types.d.ts";
-import defaultLang from "./lang/en.ts";
+import { illions, Lang } from "./lang/mod.ts";
+import { split } from "./split.ts";
+
+/** The number scale to use. https://en.wikipedia.org/wiki/Long_and_short_scales */
+type Scale = number | "long" | "short" | "knuth";
+
+type Options = {
+  scale?: Scale;
+  lang?: Lang;
+};
 
 const scaleToNum = (scale: Scale) => {
   if (typeof scale === "number") return scale;
@@ -15,17 +22,18 @@ const scaleToNum = (scale: Scale) => {
   }
 };
 
-const printPart = (lang: Lang) =>
-  (val: string | number, idx: number) =>
-    (!val || !Number(val)) ? "" : `${val} ${illions(idx, lang)}`.trim();
+const printPart = (lang: Lang) => (val: string, idx: number) => {
+  return (!val || !Number(val)) ? "" : `${val} ${illions(idx, lang)}`.trim();
+};
 
-export default function ntoa(
-  input: string | number,
-  options?: { scale?: Scale; lang?: Lang },
-) {
-  const { scale = "short", lang = defaultLang } = options || {};
+/**
+ * Transforms a number/string to its name.
+ * @example ntoa(123456) // => 123 thousand 456"
+ */
+export default function ntoa(input: string | number, options: Options = {}) {
+  const { scale = "short", lang = "en" } = options;
 
-  return splitN(input, scaleToNum(scale))
+  return split(input, scaleToNum(scale))
     .map(printPart(lang))
     .filter(Boolean)
     .reverse()
