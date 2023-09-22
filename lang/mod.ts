@@ -25,8 +25,8 @@ const illionsPrefix = (index: number, lang: LangObj) => {
 
   const [h, t, u] = splitDigits(index);
 
-  if (h) return units[u] + tens[t] + huns[h].slice(0, -1); // centillion+
-  if (t) return units[u] + tens[t].slice(0, -1); // decillion+
+  if (h) return units[u] + tens[t] + huns[h]; // centillion+
+  if (t) return units[u] + tens[t]; // decillion+
   if (u) return zeros[index];
 
   throw Error("how did we get here? 🤔");

@@ -15,8 +15,8 @@ export const en = {
   illions: {
     suffix: "illion",
     zeros: ["", "M", "B", "Tr", "Quadr", "Quint", "Sext", "Sept", "Oct", "Non"],
-    units: ["", "un", "duo", "tre", "quattuor", "quinqua", "sex", "septen", "octo", "novem"], // TODO: fix edge cases? (3,6,7,9)
-    tens: ["", "dec", "viginti", "triginta", "quadraginta", "quinquaginta", "sexaginta", "septuaginta", "octoginta", "nonaginta"],
-    huns: ["", "centi", "ducenti", "trecenti", "quadringenti", "quingenti", "sescenti", "septingenti", "octingenti", "nongenti"],
+    units: ["", "un", "duo", "tre", "quattuor", "quin", "sex", "septen", "octo", "novem"], // TODO: fix edge cases? (3,6,7,9)
+    tens: ["", "dec", "vigint", "triginta", "quadraginta", "quinquaginta", "sexaginta", "septuaginta", "octoginta", "nonaginta"],
+    huns: ["", "cent", "ducent", "trecent", "quadringent", "quingent", "sescent", "septingent", "octingent", "nongent"],
   },
 } satisfies LangObj;

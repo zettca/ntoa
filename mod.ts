@@ -22,8 +22,8 @@ const scaleToNum = (scale: Scale) => {
   }
 };
 
-const printPart = (lang: Lang) => (val: string, idx: number) => {
-  return (!val || !Number(val)) ? "" : `${val} ${illions(idx, lang)}`.trim();
+const printPart = (lang: Lang) => (val: number, idx: number) => {
+  return (!val) ? "" : `${val} ${illions(idx, lang)}`.trim();
 };
 
 /**
@@ -34,8 +34,9 @@ export default function ntoa(input: string | number, options: Options = {}) {
   const { scale = "short", lang = "en" } = options;
 
   return split(input, scaleToNum(scale))
+    .toReversed()
     .map(printPart(lang))
     .filter(Boolean)
-    .reverse()
+    .toReversed()
     .join(" ");
 }
