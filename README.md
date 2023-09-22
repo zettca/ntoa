@@ -14,13 +14,13 @@ Or if you're french 🇫🇷 or portuguese 🇵🇹 and use the awkward long sca
 
 ## Usage
 
-### API (Web 🌐 / Deno 🦕 )
+### Web API 🌐 🦕
 
 ```ts
 import { ntoa } from "https://esm.sh/gh/zettca/ntoa/mod.ts";
 
-nota("123456789"); /// 123 million 456 thousand 789
-nota("123456789123456789"); /// 123 Quadrillion 456 Trillion 789 Billion 123 Million 456 Thousand 780
+ntoa("123456789"); /// 123 million 456 thousand 789
+ntoa("123456789123456789"); /// 123 Quadrillion 456 Trillion 789 Billion 123 Million 456 Thousand 780
 ```
 
 ### CLI
