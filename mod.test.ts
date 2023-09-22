@@ -103,6 +103,36 @@ Deno.test("ntoa short scale", async (t) => {
     // assertEquals(ntoaM(1000), "123 Millinillion");
   });
 
+  await t.step("large names long scale", () => {
+    const ntoaM = (n: number) =>
+      ntoa(123 + "000".repeat((n + 1) * 2), { scale: "long" });
+
+    assertEquals(ntoaM(8), "123 Octillion");
+    assertEquals(ntoaM(9), "123 Nonillion");
+    assertEquals(ntoaM(10), "123 Decillion");
+    assertEquals(ntoaM(11), "123 Undecillion");
+    assertEquals(ntoaM(12), "123 Duodecillion");
+    assertEquals(ntoaM(13), "123 Tredecillion");
+    assertEquals(ntoaM(14), "123 Quattuordecillion");
+    assertEquals(ntoaM(15), "123 Quindecillion");
+    assertEquals(ntoaM(16), "123 Sexdecillion");
+    assertEquals(ntoaM(17), "123 Septendecillion");
+    assertEquals(ntoaM(18), "123 Octodecillion");
+    assertEquals(ntoaM(19), "123 Novemdecillion");
+    assertEquals(ntoaM(20), "123 Vigintillion");
+
+    assertEquals(ntoaM(100), "123 Centillion");
+    assertEquals(ntoaM(200), "123 Ducentillion");
+    assertEquals(ntoaM(300), "123 Trecentillion");
+    assertEquals(ntoaM(400), "123 Quadringentillion");
+    assertEquals(ntoaM(500), "123 Quingentillion");
+    assertEquals(ntoaM(600), "123 Sescentillion");
+    assertEquals(ntoaM(700), "123 Septingentillion");
+    assertEquals(ntoaM(800), "123 Octingentillion");
+    assertEquals(ntoaM(900), "123 Nongentillion");
+    // assertEquals(ntoaM(1000), "123 Millinillion");
+  });
+
   await t.step("large compound numbers", () => {
     assertEquals(
       ntoa("100".repeat(12) + "0"),
