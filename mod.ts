@@ -41,3 +41,18 @@ export default function ntoa(
     .toReversed()
     .join(" ");
 }
+
+// running as CLI
+if (import.meta.main) {
+  const numbers = Deno.args;
+
+  if (numbers?.length < 1) throw new Error("Pass numbers as arguments");
+
+  numbers.forEach((num) => {
+    if (/^\d+$/.test(num)) {
+      console.log(ntoa(num));
+    } else {
+      console.error(`"${num}" is not a valid integer`);
+    }
+  });
+}
