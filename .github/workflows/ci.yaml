@@ -5,6 +5,13 @@ on:
     branches: [master]
   pull_request:
     branches: [master]
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: "Publish release"
+        type: boolean
+        required: true
+        default: false
 
 jobs:
   Check:
@@ -28,3 +35,7 @@ jobs:
 
       - name: Test
         run: deno test
+
+      - name: Publish
+        if: ${{ github.event.inputs.publish == 'true' }}
+        run: deno publish
