@@ -1,16 +1,25 @@
 # ntoa: _Number to String_ converter.
 
-Wondering how to correctly pronounce `659102863539127065129078569382156238956190238`?
+Wondering how to correctly pronounce
+`659102863539127065129078569382156238956190238`?
 
 No? Understandable, have a nice day.
 
 But with `ntoa` you can do it - using the API, CLI, or WebApp.
 
-> 659 Tredecillion 102 Duodecillion 863 Undecillion 539 Decillion 127 Nonillion 65 Octillion 129 Septillion 78 Sextillion 569 Quintillion 382 Quadrillion 156 Trillion 238 Billion 956 Million 190 Thousand 238
+> 659 Tredecillion 102 Duodecillion 863 Undecillion 539 Decillion 127 Nonillion
+> 65 Octillion 129 Septillion 78 Sextillion 569 Quintillion 382 Quadrillion 156
+> Trillion 238 Billion 956 Million 190 Thousand 238
 
-Or if you're french 🇫🇷 or portuguese 🇵🇹 and use the awkward long scale, it's (long version):
+Or if you're french 🇫🇷 or portuguese 🇵🇹 and use the awkward long scale, it's
+(long version):
 
-> Six Hundred Fifty Nine Septillion One Hundred Two Thousand Eight Hundred Sixty Three Sextillion Five Hundred Thirty Nine Thousand One Hundred Twenty Seven Quintillion Sixty Five Thousand One Hundred Twenty Nine Quadrillion Seventy Eight Thousand Five Hundred Sixty Nine Trillion Three Hundred Eighty Two Thousand One Hundred Fifty Six Billion Two Hundred Thirty Eight Thousand Nine Hundred Fifty Six Million One Hundred Ninety Thousand Two Hundred Thirty Eight
+> Six Hundred Fifty Nine Septillion One Hundred Two Thousand Eight Hundred Sixty
+> Three Sextillion Five Hundred Thirty Nine Thousand One Hundred Twenty Seven
+> Quintillion Sixty Five Thousand One Hundred Twenty Nine Quadrillion Seventy
+> Eight Thousand Five Hundred Sixty Nine Trillion Three Hundred Eighty Two
+> Thousand One Hundred Fifty Six Billion Two Hundred Thirty Eight Thousand Nine
+> Hundred Fifty Six Million One Hundred Ninety Thousand Two Hundred Thirty Eight
 
 ## Usage
 

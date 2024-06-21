@@ -1,7 +1,7 @@
 import type { LangObj } from "./types.ts";
 
 // deno-fmt-ignore
-export const en = {
+export const en: LangObj = {
   separator: " ",
   none: "",
   zero: "Zero",
@@ -19,4 +19,8 @@ export const en = {
     tens: ["", "dec", "vigint", "triginta", "quadraginta", "quinquaginta", "sexaginta", "septuaginta", "octoginta", "nonaginta"],
     huns: ["", "cent", "ducent", "trecent", "quadringent", "quingent", "sescent", "septingent", "octingent", "nongent"],
   },
-} satisfies LangObj;
+};
+
+export default {
+  en,
+};

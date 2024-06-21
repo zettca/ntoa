@@ -1,21 +1,16 @@
-import { en } from "./langs.ts";
-
-type LangObj = typeof en;
-
-const langs = {
-  en,
-} satisfies Record<string, LangObj>;
+import langs, { en } from "./langs.ts";
+import type { LangObj } from "./types.ts";
 
 export type Lang = keyof typeof langs;
 
-export function getLang(lang?: Lang) {
+function getLang(lang?: Lang) {
   return (lang && langs[lang]) || en;
 }
 
-export const capitalize = (str: string) =>
+const capitalize = (str: string) =>
   str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 
-export const splitDigits = (digits: number, pad = 3) =>
+const splitDigits = (digits: number, pad = 3) =>
   [...String(digits).padStart(pad, "0")].map(Number);
 
 const illionsPrefix = (index: number, lang: LangObj) => {
