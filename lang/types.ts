@@ -15,10 +15,15 @@ export type LangObj = {
   hundred: string;
   thousand: string;
   illions: {
-    suffix: string;
     zeros: StringTuple<10>;
     units: StringTuple<10>;
     tens: StringTuple<10>;
     huns: StringTuple<10>;
   };
+  /** tens modified */
+  tensMod: (u: number, t: number) => string;
+  /** tens modified */
+  hunsMod: (u: number, h: number) => string;
+  /** final cleanup function on the `illion` prefix */
+  final: (illion: string) => string;
 };

@@ -44,7 +44,7 @@ Deno.test("large names", () => {
   assertEquals(ntoaM(16), "123 Sexdecillion");
   assertEquals(ntoaM(17), "123 Septendecillion");
   assertEquals(ntoaM(18), "123 Octodecillion");
-  assertEquals(ntoaM(19), "123 Novemdecillion");
+  assertEquals(ntoaM(19), "123 Novendecillion");
   assertEquals(ntoaM(20), "123 Vigintillion");
 
   assertEquals(ntoaM(100), "123 Centillion");
@@ -74,7 +74,7 @@ Deno.test("large names long scale", () => {
   assertEquals(ntoaM(16), "123 Sexdecillion");
   assertEquals(ntoaM(17), "123 Septendecillion");
   assertEquals(ntoaM(18), "123 Octodecillion");
-  assertEquals(ntoaM(19), "123 Novemdecillion");
+  assertEquals(ntoaM(19), "123 Novendecillion");
   assertEquals(ntoaM(20), "123 Vigintillion");
 
   assertEquals(ntoaM(100), "123 Centillion");
