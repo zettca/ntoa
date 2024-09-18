@@ -3,10 +3,6 @@ import type { LangObj } from "./types.ts";
 
 export type Lang = keyof typeof langs;
 
-function getLang(lang?: Lang) {
-  return (lang && langs[lang]) || en;
-}
-
 const capitalize = (str: string) =>
   str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 
@@ -29,10 +25,12 @@ const illionsPrefix = (index: number, lang: LangObj) => {
 
 /**
  * Translates a number group index into the string
- * @example illions(3) // billion
+ * @example
+ * illions(2) // million
+ * illions(4) // trillion
  */
 export const illions = (index: number, langString: Lang = "en") => {
-  const lang = getLang(langString);
+  const lang = langs[langString!] || en;
 
   if (index === 0) return "";
   if (index === 1) return lang.thousand;
