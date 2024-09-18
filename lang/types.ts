@@ -9,8 +9,6 @@ export type StringTuple<N extends number> = Tuple<string, N>;
 
 /** The object of number translations */
 export type LangObj = {
-  separator: string;
-  none: string;
   zero: string;
   ones: StringTuple<19>;
   tens: StringTuple<9>;

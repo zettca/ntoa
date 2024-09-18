@@ -1,11 +1,11 @@
 import { illions, type Lang } from "./lang/mod.ts";
 import { split } from "./split.ts";
 
-type Options = {
+interface Options {
   /** The number scale to use. https://en.wikipedia.org/wiki/Long_and_short_scales */
   scale?: number | "long" | "short" | "knuth";
   lang?: Lang;
-};
+}
 
 const scaleToNum = (scale: Options["scale"]) => {
   if (typeof scale === "number") return scale;
@@ -28,8 +28,8 @@ const printPart = (lang: Lang) => (val: number, idx: number) => {
  * Transforms a number/string to its name.
  * @example ntoa(123456) // => 123 thousand 456"
  */
-export default function ntoa(
-  input: string | number,
+export function ntoa(
+  input: string,
   options: Options = {},
 ): string {
   const { scale = "short", lang = "en" } = options;
@@ -56,3 +56,5 @@ if (import.meta.main) {
     }
   });
 }
+
+export default ntoa;

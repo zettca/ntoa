@@ -16,7 +16,7 @@ const splitDigits = (digits: number, pad = 3) =>
 const illionsPrefix = (index: number, lang: LangObj) => {
   const { zeros, units, tens, huns } = lang.illions;
 
-  if (index > 999) throw Error("Number too large - names don't exist 😢");
+  if (index > 999) throw Error("💥 Number is too large");
 
   const [h, t, u] = splitDigits(index);
 
@@ -34,7 +34,7 @@ const illionsPrefix = (index: number, lang: LangObj) => {
 export const illions = (index: number, langString: Lang = "en") => {
   const lang = getLang(langString);
 
-  if (index === 0) return lang.none;
+  if (index === 0) return "";
   if (index === 1) return lang.thousand;
 
   const prefix = illionsPrefix(index - 1, lang);

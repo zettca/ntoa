@@ -2,8 +2,6 @@ import type { LangObj } from "./types.ts";
 
 // deno-fmt-ignore
 export const en: LangObj = {
-  separator: " ",
-  none: "",
   zero: "Zero",
   ones: [
     "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten",
