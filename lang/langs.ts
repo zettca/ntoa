@@ -3,6 +3,14 @@ import type { LangObj } from "./types.ts";
 const capitalize = (str: string) =>
   str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 
+// deno-fmt-ignore
+const illions: LangObj["illions"] = {
+  zeros: ["", "M", "B", "Tr", "Quadr", "Quint", "Sext", "Sept", "Oct", "Non"],
+  units: ["", "un", "duo", "tre", "quattuor", "quin", "se", "septe", "octo", "nove"],
+  tens: ["", "deci", "viginti", "triginta", "quadraginta", "quinquaginta", "sexaginta", "septuaginta", "octoginta", "nonaginta"],
+  huns: ["", "cent", "ducent", "trecent", "quadringent", "quingent", "sescent", "septingent", "octingent", "nongent"],
+}
+
 export const en: LangObj = {
   // deno-fmt-ignore
   ones: [
@@ -13,13 +21,7 @@ export const en: LangObj = {
   tens: ["Ten", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"],
   hundred: "Hundred",
   thousand: "Thousand",
-  // deno-fmt-ignore
-  illions: {
-    zeros: ["", "M", "B", "Tr", "Quadr", "Quint", "Sext", "Sept", "Oct", "Non"],
-    units: ["", "un", "duo", "tre", "quattuor", "quin", "se", "septe", "octo", "nove"],
-    tens: ["", "deci", "viginti", "triginta", "quadraginta", "quinquaginta", "sexaginta", "septuaginta", "octoginta", "nonaginta"],
-    huns: ["", "cent", "ducent", "trecent", "quadringent", "quingent", "sescent", "septingent", "octingent", "nongent"],
-  },
+  illions,
   tensMod: (u, t) => {
     const modMap: Record<number, string> = {
       3: "__ssss__x_",
@@ -55,13 +57,7 @@ export const fr: LangObj = {
   tens: ["Dix", "Vingt", "Trente", "Quarante", "Cinquante", "Soixante", "Soixante-dix", "Quatre-vingts", "Quatre-vingt-dix"],
   hundred: "Cent",
   thousand: "Mille",
-  // deno-fmt-ignore
-  illions: {
-    zeros: ["", "M", "B", "Tr", "Quadr", "Quint", "Sext", "Sept", "Oct", "Non"],
-    units: ["", "un", "duo", "tre", "quattuor", "quinqua", "se", "septe", "octo", "nove"],
-    tens: ["", "deci", "viginti", "triginta", "quadraginta", "quinquaginta", "sexaginta", "septuaginta", "octoginta", "nonaginta"],
-    huns: ["", "cent", "ducent", "trecent", "quadringent", "quingent", "sescent", "septingent", "octingent", "nongent"],
-  },
+  illions,
   tensMod: (u, t) => {
     const modMap: Record<number, string> = {
       3: "__ssss____",
@@ -98,12 +94,7 @@ export const pt: LangObj = {
   hundred: "Cem",
   thousand: "Mil",
   // deno-fmt-ignore
-  illions: {
-    zeros: ["", "M", "B", "Tr", "Quadr", "Quint", "Sext", "Sept", "Oct", "Non"],
-    units: ["", "un", "duo", "tre", "quattuor", "quin", "se", "septe", "octo", "nove"],
-    tens: ["", "deci", "viginti", "triginta", "quadraginta", "quinquaginta", "sexaginta", "septuaginta", "octoginta", "nonaginta"],
-    huns: ["", "cent", "ducent", "trecent", "quadringent", "quingent", "sescent", "septingent", "octingent", "nongent"],
-  },
+  illions,
   tensMod: () => "",
   hunsMod: () => "",
   final: (illion: string) => {
