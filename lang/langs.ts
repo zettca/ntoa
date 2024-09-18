@@ -87,7 +87,33 @@ export const fr: LangObj = {
   },
 };
 
+export const pt: LangObj = {
+  // deno-fmt-ignore
+  ones: [
+    "Um", "Dois", "Três", "Quatro", "Cinco", "Seis", "Sete", "Oito", "Nove", "Dez",
+    "Onze", "Doze", "Treze", "Quatorze", "Quinze", "Dezesseis", "Dezessete", "Dezoito", "Dezenove",
+  ],
+  // deno-fmt-ignore
+  tens: ["Dez", "Vinte", "Trinta", "Quarenta", "Cinquenta", "Sessenta", "Setenta", "Oitenta", "Noventa"],
+  hundred: "Cem",
+  thousand: "Mil",
+  // deno-fmt-ignore
+  illions: {
+    zeros: ["", "M", "B", "Tr", "Quadr", "Quint", "Sext", "Sept", "Oct", "Non"],
+    units: ["", "un", "duo", "tre", "quattuor", "quin", "se", "septe", "octo", "nove"],
+    tens: ["", "deci", "viginti", "triginta", "quadraginta", "quinquaginta", "sexaginta", "septuaginta", "octoginta", "nonaginta"],
+    huns: ["", "cent", "ducent", "trecent", "quadringent", "quingent", "sescent", "septingent", "octingent", "nongent"],
+  },
+  tensMod: () => "",
+  hunsMod: () => "",
+  final: (illion: string) => {
+    const base = illion.replace(/[ai]$/, "");
+    return capitalize(base === "M" ? "ilhão" : "ilihão"); // br is better
+  },
+};
+
 export default {
   en,
   fr,
+  pt,
 };
