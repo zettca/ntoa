@@ -1,0 +1,27 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  test:
+    name: Test
+    uses: ./.github/workflows/ci.yml
+
+  release:
+    name: Release
+    needs: test
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - run: deno publish
+
+      - run: npx changelogithub
