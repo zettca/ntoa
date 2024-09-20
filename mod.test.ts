@@ -61,8 +61,11 @@ Deno.test("large names", () => {
 
 Deno.test("large names long scale", () => {
   const ntoaM = (n: number) =>
-    ntoa(123 + "000".repeat((n + 1) * 2), { scale: "long" });
+    ntoa(123 + "000".repeat(n * 2), { scale: "long" });
 
+  assertEquals(ntoaM(2), "123 Billion");
+  assertEquals(ntoaM(3), "123 Trillion");
+  assertEquals(ntoaM(5), "123 Quintillion");
   assertEquals(ntoaM(8), "123 Octillion");
   assertEquals(ntoaM(9), "123 Nonillion");
   assertEquals(ntoaM(10), "123 Decillion");
@@ -97,5 +100,9 @@ Deno.test("large compound numbers", () => {
   assertEquals(
     ntoa("123".repeat(12)),
     "123 Decillion 123 Nonillion 123 Octillion 123 Septillion 123 Sextillion 123 Quintillion 123 Quadrillion 123 Trillion 123 Billion 123 Million 123 Thousand 123",
+  );
+  assertEquals(
+    ntoa("123".repeat(12), { scale: "long" }),
+    "123123 Quintillion 123123 Quadrillion 123123 Trillion 123123 Billion 123123 Million 123 Thousand 123",
   );
 });

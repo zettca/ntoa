@@ -20,6 +20,17 @@ const scaleToNum = (scale: Options["scale"]) => {
   }
 };
 
+const splitParts = (input = "", scale: Options["scale"]) => {
+  if (scale === "long" && input.length > 9) {
+    return [
+      ...split(input.slice(0, -6), 6),
+      ...split(input.slice(-6), 3),
+    ];
+  }
+
+  return split(input, scaleToNum(scale));
+};
+
 const printPart = (lang: Lang) => (val: number, idx: number) => {
   return (!val) ? "" : `${val} ${illions(idx, lang)}`.trim();
 };
@@ -34,7 +45,7 @@ export function ntoa(
 ): string {
   const { scale = "short", lang = "en" } = options;
 
-  return split(input, scaleToNum(scale))
+  return splitParts(input, scale)
     .toReversed()
     .map(printPart(lang))
     .filter(Boolean)

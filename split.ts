@@ -1,6 +1,6 @@
-export const splitAt = (str: string, index = 0) => {
+function splitAt(str = "", index = 0) {
   return [str.slice(0, index), str.slice(index)];
-};
+}
 
 /**
  * Splits `input` into an array of parts of length `partSize`
@@ -8,12 +8,11 @@ export const splitAt = (str: string, index = 0) => {
  * @param partSize length of each part
  * @returns array of the parts
  */
-export function split(input: string, partSize = 3) {
-  const remainder = input.length % partSize;
-  const [firstGroup, rest] = splitAt(input, remainder);
+export function split(input = "", partSize = 3) {
+  const [firstPart, rest] = splitAt(input, input.length % partSize);
 
   return [
-    ...(remainder === 0 ? [] : [firstGroup]),
+    firstPart,
     ...rest.match(new RegExp(`.{1,${partSize}}`, "g")) ?? [],
-  ].map(Number);
+  ].filter(Boolean).map(Number);
 }
