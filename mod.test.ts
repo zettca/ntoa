@@ -59,7 +59,19 @@ Deno.test("large names", () => {
   // assertEquals(ntoaM(1000), "123 Millinillion");
 });
 
-Deno.test("large names long scale", () => {
+Deno.test("long scale", () => {
+  const ntoaL = (n: string) => ntoa(n, { scale: "long" });
+  assertEquals(ntoaL("123"), "123");
+  assertEquals(ntoaL("1234"), "1 Thousand 234");
+  assertEquals(ntoaL("12345"), "12 Thousand 345");
+  assertEquals(ntoaL("123456"), "123 Thousand 456");
+  assertEquals(ntoaL("1234567"), "1 Million 234 Thousand 567");
+  assertEquals(ntoaL("12345678"), "12 Million 345 Thousand 678");
+  assertEquals(ntoaL("123456789"), "123 Million 456 Thousand 789");
+  assertEquals(ntoaL("1234567890"), "1234 Million 567 Thousand 890");
+});
+
+Deno.test("long scale large numbers", () => {
   const ntoaM = (n: number) =>
     ntoa(123 + "000".repeat(n * 2), { scale: "long" });
 

@@ -21,7 +21,8 @@ const scaleToNum = (scale: Options["scale"]) => {
 };
 
 const splitParts = (input = "", scale: Options["scale"]) => {
-  if (scale === "long" && input.length > 9) {
+  if (scale === "long") {
+    if (input.length <= 9) return split(input, 3);
     return [
       ...split(input.slice(0, -6), 6),
       ...split(input.slice(-6), 3),
