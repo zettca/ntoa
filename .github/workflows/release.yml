@@ -1,6 +1,7 @@
 name: Release
 
 on:
+  workflow_dispatch:
   push:
     tags:
       - v*
@@ -22,6 +23,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - run: deno publish
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
 
-      - run: npx changelogithub
+      - run: deno publish
