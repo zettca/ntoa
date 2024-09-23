@@ -14,7 +14,7 @@ const capitalize = (str: string) =>
 
 // deno-fmt-ignore
 const illions = {
-  zeros: ["", "M", "B", "Tr", "Quadr", "Quint", "Sext", "Sept", "Oct", "Non"],
+  zeros: ["", "m", "b", "tr", "quadr", "quint", "sext", "sept", "oct", "non"],
   units: ["", "un", "duo", "tre", "quattuor", "quin", "se", "septe", "octo", "nove"],
   tens: ["", "deci", "viginti", "triginta", "quadraginta", "quinquaginta", "sexaginta", "septuaginta", "octoginta", "nonaginta"],
   huns: ["", "cent", "ducent", "trecent", "quadringent", "quingent", "sescent", "septingent", "octingent", "nongent"],
@@ -23,13 +23,13 @@ const illions = {
 export const en: LangObj = {
   // deno-fmt-ignore
   ones: [
-    "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten",
-    "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen",
+    "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
+    "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen",
   ],
   // deno-fmt-ignore
-  tens: ["Ten", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"],
-  hundred: "Hundred",
-  thousand: "Thousand",
+  tens: ["ten", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"],
+  hundred: "hundred",
+  thousand: "thousand",
   illions,
   tensMod: (u, t) => {
     const modMap: Record<number, string> = {
@@ -59,13 +59,13 @@ export const en: LangObj = {
 export const fr: LangObj = {
   // deno-fmt-ignore
   ones: [
-    "Un", "Deux", "Trois", "Quatre", "Cinq", "Six", "Sept", "Huit", "Neuf", "Dix",
-    "Onze", "Douze", "Treize", "Quatorze", "Quinze", "Seize", "Dix-sept", "Dix-huit", "Dix-neuf"
+    "un", "deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf", "dix",
+    "onze", "douze", "treize", "quatorze", "quinze", "seize", "dix-sept", "dix-huit", "dix-neuf",
   ],
   // deno-fmt-ignore
-  tens: ["Dix", "Vingt", "Trente", "Quarante", "Cinquante", "Soixante", "Soixante-dix", "Quatre-vingts", "Quatre-vingt-dix"],
-  hundred: "Cent",
-  thousand: "Mille",
+  tens: ["dix", "vingt", "trente", "quarante", "cinquante", "soixante", "soixante-dix", "quatre-vingts", "quatre-vingt-dix"],
+  hundred: "cent",
+  thousand: "mille",
   illions,
   tensMod: (u, t) => {
     const modMap: Record<number, string> = {
@@ -95,13 +95,13 @@ export const fr: LangObj = {
 export const pt: LangObj = {
   // deno-fmt-ignore
   ones: [
-    "Um", "Dois", "Três", "Quatro", "Cinco", "Seis", "Sete", "Oito", "Nove", "Dez",
-    "Onze", "Doze", "Treze", "Quatorze", "Quinze", "Dezesseis", "Dezessete", "Dezoito", "Dezenove",
+    "um", "dois", "três", "quatro", "cinco", "seis", "sete", "oito", "nove", "dez",
+    "onze", "doze", "treze", "quatorze", "quinze", "dezasseis", "dezassete", "dezoito", "dezanove",
   ],
   // deno-fmt-ignore
-  tens: ["Dez", "Vinte", "Trinta", "Quarenta", "Cinquenta", "Sessenta", "Setenta", "Oitenta", "Noventa"],
-  hundred: "Cento",
-  thousand: "Mil",
+  tens: ["dez", "vinte", "trinta", "quarenta", "cinquenta", "sessenta", "setenta", "oitenta", "noventa"],
+  hundred: "cento",
+  thousand: "mil",
   // deno-fmt-ignore
   illions,
   tensMod: () => "",
