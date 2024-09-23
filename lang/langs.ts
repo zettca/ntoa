@@ -1,10 +1,19 @@
-import type { LangObj } from "./types.ts";
+export interface LangObj {
+  ones: string[];
+  tens: string[];
+  hundred: string;
+  thousand: string;
+  illions: typeof illions;
+  tensMod: (u: number, t: number) => string;
+  hunsMod: (u: number, h: number) => string;
+  final: (illion: string, number: number) => string;
+}
 
 const capitalize = (str: string) =>
   str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 
 // deno-fmt-ignore
-const illions: LangObj["illions"] = {
+const illions = {
   zeros: ["", "M", "B", "Tr", "Quadr", "Quint", "Sext", "Sept", "Oct", "Non"],
   units: ["", "un", "duo", "tre", "quattuor", "quin", "se", "septe", "octo", "nove"],
   tens: ["", "deci", "viginti", "triginta", "quadraginta", "quinquaginta", "sexaginta", "septuaginta", "octoginta", "nonaginta"],
@@ -42,7 +51,7 @@ export const en: LangObj = {
 
     return modMap[u]?.[h].replace("_", "") || "";
   },
-  final: (illion: string) => {
+  final: (illion) => {
     return capitalize(illion.replace(/[ai]$/, "") + "illion");
   },
 };
@@ -78,7 +87,7 @@ export const fr: LangObj = {
 
     return modMap[u]?.[h].replace("_", "") || "";
   },
-  final: (illion: string) => {
+  final: (illion) => {
     return capitalize(illion.replace(/[ai]$/, "") + "illion");
   },
 };
@@ -91,15 +100,17 @@ export const pt: LangObj = {
   ],
   // deno-fmt-ignore
   tens: ["Dez", "Vinte", "Trinta", "Quarenta", "Cinquenta", "Sessenta", "Setenta", "Oitenta", "Noventa"],
-  hundred: "Cem",
+  hundred: "Cento",
   thousand: "Mil",
   // deno-fmt-ignore
   illions,
   tensMod: () => "",
   hunsMod: () => "",
-  final: (illion: string) => {
+  final: (illion, number) => {
     const base = illion.replace(/[ai]$/, "");
-    return capitalize(base === "M" ? "ilhão" : "ilihão"); // br is better
+    const name = base === "M" ? "ilh" : "ili"; // 🇧🇷 is better 😞
+    const suffix = number === 1 ? "ão" : "ões"; // handle plurals
+    return capitalize(`${base}${name}${suffix}`);
   },
 };
 

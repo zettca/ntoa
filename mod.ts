@@ -1,7 +1,7 @@
 import { illions, type Lang } from "./lang/mod.ts";
 import { split } from "./split.ts";
 
-interface Options {
+export interface Options {
   /** The number scale to use. https://en.wikipedia.org/wiki/Long_and_short_scales */
   scale?: number | "long" | "short" | "knuth";
   lang?: Lang;
@@ -33,7 +33,7 @@ const splitParts = (input = "", scale: Options["scale"]) => {
 };
 
 const printPart = (lang: Lang) => (val: number, idx: number) => {
-  return (!val) ? "" : `${val} ${illions(idx, lang)}`.trim();
+  return (!val) ? "" : `${val} ${illions(idx, val, lang)}`.trim();
 };
 
 /**

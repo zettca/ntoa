@@ -1,5 +1,4 @@
-import langs, { en } from "./langs.ts";
-import type { LangObj } from "./types.ts";
+import langs, { en, type LangObj } from "./langs.ts";
 
 export type Lang = keyof typeof langs;
 
@@ -27,11 +26,15 @@ const illionsPrefix = (index: number, lang: LangObj) => {
  * illions(2) // million
  * illions(4) // trillion
  */
-export const illions = (index: number, langString: Lang = "en") => {
+export const illions = (
+  index: number,
+  number: number,
+  langString: Lang = "en",
+) => {
   const lang = langs[langString!] || en;
 
   if (index === 0) return "";
   if (index === 1) return lang.thousand;
 
-  return lang.final(illionsPrefix(index - 1, lang));
+  return lang.final(illionsPrefix(index - 1, lang), number);
 };
