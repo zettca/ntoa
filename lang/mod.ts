@@ -23,8 +23,8 @@ const illionsPrefix = (index: number, lang: LangObj) => {
 /**
  * Translates a number group index into the string
  * @example
- * illions(2) // million
- * illions(4) // trillion
+ * illions(1) // million
+ * illions(3) // trillion
  */
 export const illions = (
   index: number,
@@ -33,8 +33,8 @@ export const illions = (
 ) => {
   const lang = langs[langString!] || en;
 
-  if (index === 0) return "";
-  if (index === 1) return lang.thousand;
+  if (index < 0) return "";
+  if (index === 0) return lang.thousand;
 
-  return lang.final(illionsPrefix(index - 1, lang), number);
+  return lang.final(illionsPrefix(index, lang), number);
 };

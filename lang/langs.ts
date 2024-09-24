@@ -9,9 +9,6 @@ export interface LangObj {
   final: (illion: string, number: number) => string;
 }
 
-const capitalize = (str: string) =>
-  str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-
 // deno-fmt-ignore
 const illions = {
   zeros: ["", "m", "b", "tr", "quadr", "quint", "sext", "sept", "oct", "non"],
@@ -51,9 +48,7 @@ export const en: LangObj = {
 
     return modMap[u]?.[h].replace("_", "") || "";
   },
-  final: (illion) => {
-    return capitalize(illion.replace(/[ai]$/, "") + "illion");
-  },
+  final: (illion) => illion.replace(/[ai]$/, "") + "illion",
 };
 
 export const fr: LangObj = {
@@ -87,9 +82,7 @@ export const fr: LangObj = {
 
     return modMap[u]?.[h].replace("_", "") || "";
   },
-  final: (illion) => {
-    return capitalize(illion.replace(/[ai]$/, "") + "illion");
-  },
+  final: (illion) => illion.replace(/[ai]$/, "") + "illion",
 };
 
 export const pt: LangObj = {
@@ -110,7 +103,7 @@ export const pt: LangObj = {
     const base = illion.replace(/[ai]$/, "");
     const name = base === "M" ? "ilh" : "ili"; // 🇧🇷 is better 😞
     const suffix = number === 1 ? "ão" : "ões"; // handle plurals
-    return capitalize(`${base}${name}${suffix}`);
+    return `${base}${name}${suffix}`;
   },
 };
 

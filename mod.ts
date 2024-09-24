@@ -5,6 +5,7 @@ export interface Options {
   /** The number scale to use. https://en.wikipedia.org/wiki/Long_and_short_scales */
   scale?: number | "long" | "short" | "knuth";
   lang?: Lang;
+  verbose?: boolean;
 }
 
 const scaleToNum = (scale: Options["scale"]) => {
@@ -32,10 +33,6 @@ const splitParts = (input = "", scale: Options["scale"]) => {
   return split(input, scaleToNum(scale));
 };
 
-const printPart = (lang: Lang) => (val: number, idx: number) => {
-  return (!val) ? "" : `${val} ${illions(idx, val, lang)}`.trim();
-};
-
 /**
  * Transforms a number/string to its name.
  * @example ntoa(123456) // => 123 thousand 456"
@@ -44,13 +41,19 @@ export function ntoa(
   input: string,
   options: Options = {},
 ): string {
-  const { scale = "short", lang = "en" } = options;
+  const { scale = "short", lang = "en", verbose = false } = options;
+
+  const printPart = (val: number, idx: number) => {
+    if (!val) return "";
+
+    if (!verbose) return `${val} ${illions(idx - 2, val, lang)}`.trim();
+
+    return `${val} ${illions(idx - 2, val, lang)}`.trim();
+  };
 
   return splitParts(input, scale)
-    .toReversed()
-    .map(printPart(lang))
+    .map((val, idx, arr) => printPart(val, arr.length - idx))
     .filter(Boolean)
-    .toReversed()
     .join(" ");
 }
 
