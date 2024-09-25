@@ -1,5 +1,7 @@
-import { illions, type Lang } from "./lang/mod.ts";
+import langs from "./lang/langs.ts";
 import { split } from "./split.ts";
+
+export type Lang = keyof typeof langs;
 
 export interface Options {
   /** The number scale to use. https://en.wikipedia.org/wiki/Long_and_short_scales */
@@ -41,18 +43,21 @@ export function ntoa(
   input: string,
   options: Options = {},
 ): string {
-  const { scale = "short", lang = "en", verbose = false } = options;
+  const { scale = "short", lang: langString = "en" } = options;
+  const lang = langs[langString] || langs.en;
 
-  const printPart = (val: number, idx: number) => {
+  const printPart = (val: number, i: number, arr: number[]) => {
     if (!val) return "";
 
-    if (!verbose) return `${val} ${illions(idx - 2, val, lang)}`.trim();
+    const idx = arr.length - i - 2;
 
-    return `${val} ${illions(idx - 2, val, lang)}`.trim();
+    const p1 = lang.nillions(val);
+    const p2 = lang.millions(idx, val);
+    return `${p1} ${p2}`.trim();
   };
 
   return splitParts(input, scale)
-    .map((val, idx, arr) => printPart(val, arr.length - idx))
+    .map(printPart)
     .filter(Boolean)
     .join(" ");
 }
