@@ -40,7 +40,7 @@ const splitParts = (input = "", scale: Options["scale"]) => {
  * @example ntoa(123456) // => 123 thousand 456"
  */
 export function ntoa(
-  input: string,
+  input: string | bigint,
   options: Options = {},
 ): string {
   const { scale = "short", lang: langString = "en", verbose = false } = options;
@@ -56,7 +56,7 @@ export function ntoa(
     return `${p1} ${p2}`.trim();
   };
 
-  return splitParts(input, scale)
+  return splitParts(String(input), scale)
     .map(printPart)
     .filter(Boolean)
     .join(" ");
