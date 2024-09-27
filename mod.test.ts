@@ -118,3 +118,50 @@ Deno.test("large compound numbers", () => {
     "123123 quintillion 123123 quadrillion 123123 trillion 123123 billion 123123 million 123 thousand 123",
   );
 });
+
+Deno.test("large verbose numbers", () => {
+  assertEquals(
+    ntoa("123456789000", { verbose: true }),
+    "one hundred twenty-three billion four hundred fifty-six million seven hundred eighty-nine thousand",
+  );
+  assertEquals(
+    ntoa("123456789000", { scale: "long", verbose: true }),
+    "one hundred twenty-three thousand four hundred fifty-six million seven hundred eighty-nine thousand",
+  );
+});
+
+Deno.test("intl", async (t) => {
+  await t.step("pt", () => {
+    assertEquals(
+      ntoa("123456789000", { lang: "pt" }),
+      "123 biliões 456 milhões 789 mil",
+    );
+
+    assertEquals(
+      ntoa("123456789000", { lang: "pt", scale: "long" }),
+      "123456 milhões 789 mil",
+    );
+
+    assertEquals(
+      ntoa("123456789000", { lang: "pt", scale: "long", verbose: true }),
+      "cento e vinte e três mil quatrocentos e cinquenta e seis milhões setecentos e oitenta e nove mil",
+    );
+  });
+
+  await t.step("fr", () => {
+    assertEquals(
+      ntoa("123456789000", { lang: "fr" }),
+      "123 billions 456 millions 789 mille",
+    );
+
+    assertEquals(
+      ntoa("123456789000", { lang: "fr", scale: "long" }),
+      "123456 millions 789 mille",
+    );
+
+    assertEquals(
+      ntoa("123456789000", { lang: "fr", scale: "long", verbose: true }),
+      "cent vingt-trois mille quatre cent cinquante-six millions sept cent quatre-vingt-neuf mille",
+    );
+  });
+});

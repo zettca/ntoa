@@ -1,12 +1,12 @@
 export interface LangObj {
   ones: string[];
   tens: string[];
-  hundred: string;
+  hundreds: string[];
   thousand: string;
   illions: typeof illions;
   illion: string;
   /** Print the small part (eg. ten, hundreds, etc) */
-  nillions: (val: number) => number;
+  nillions: (val: number) => string;
   /** Print the illions part (eg. trillion, centillion, etc) */
   millions: (index: number, num: number) => string;
   millionsModifier: (illion: string, number: number) => string;
@@ -29,13 +29,13 @@ const illions = {
 const baseLang = {
   ones: [],
   tens: [],
-  hundred: "",
+  hundreds: [],
   thousand: "",
   illion: "illion",
   illions,
   mod: () => "",
   nillions(val: number) {
-    return val;
+    return `${val}`;
   },
   millions(index: number, num: number) {
     const { zeros, units, tens, huns } = this.illions;
@@ -52,9 +52,9 @@ const baseLang = {
 
     return this.millionsModifier(value, num);
   },
-  millionsModifier(str: string) {
-    if (!str) return "";
-    return str.replace(/[ai]$/, "") + this.illion;
+  millionsModifier(illion: string) {
+    if (!illion) return "";
+    return illion.replace(/[ai]$/, "") + this.illion;
   },
 } satisfies LangObj;
 
@@ -67,9 +67,29 @@ export const en: LangObj = {
   ],
   // deno-fmt-ignore
   tens: ["ten", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"],
-  hundred: "hundred",
+  get hundreds() {
+    return this.ones.slice(0, 9).map((n) => `${n} hundred`);
+  },
   thousand: "thousand",
   illions,
+  nillions(num: number) {
+    const [h, t, u] = splitDigits(num).map((n) => n - 1);
+
+    switch (true) {
+      case num < 20:
+        return this.ones[num - 1];
+      case num < 100:
+        return [this.tens[t], this.ones[u]].join("-");
+      case num < 1000:
+        return `${this.hundreds[h]} ${this.nillions(num % 100)}`;
+      default:
+        return [
+          this.nillions(Math.floor(num / 1000)),
+          this.thousand,
+          this.nillions(num % 1000),
+        ].join(" ");
+    }
+  },
   mod: (h, t, u) => {
     const tensModMad: Record<number, string> = {
       3: "__ssss__x_",
@@ -97,9 +117,35 @@ export const fr: LangObj = {
     "onze", "douze", "treize", "quatorze", "quinze", "seize", "dix-sept", "dix-huit", "dix-neuf",
   ],
   // deno-fmt-ignore
-  tens: ["dix", "vingt", "trente", "quarante", "cinquante", "soixante", "soixante-dix", "quatre-vingts", "quatre-vingt-dix"],
-  hundred: "cent",
+  tens: ["dix", "vingt", "trente", "quarante", "cinquante", "soixante", "soixante-dix", "quatre-vingt", "quatre-vingt-dix"],
+  get hundreds() {
+    return ["cent", ...this.ones.slice(1, 9).map((n) => `${n} cent`)];
+  },
   thousand: "mille",
+  nillions(num: number) {
+    const [h, t, u] = splitDigits(num).map((n) => n - 1);
+
+    switch (true) {
+      case num < 20:
+        return this.ones[num - 1];
+      case num < 100:
+        return [this.tens[t], this.ones[u]].join("-");
+      case num < 1000:
+        return `${this.hundreds[h]} ${this.nillions(num % 100)}`;
+      default:
+        return [
+          this.nillions(Math.floor(num / 1000)),
+          this.thousand,
+          this.nillions(num % 1000),
+        ].join(" ");
+    }
+  },
+  millionsModifier(illion, number) {
+    if (!illion) return "";
+    const base = illion.replace(/[ai]$/, "");
+    const suffix = number === 1 ? "" : "s";
+    return base + this.illion + suffix;
+  },
   mod: (h, t, u) => {
     const tensModMad: Record<number, string> = {
       3: "__ssss____",
@@ -128,11 +174,39 @@ export const pt: LangObj = {
   ],
   // deno-fmt-ignore
   tens: ["dez", "vinte", "trinta", "quarenta", "cinquenta", "sessenta", "setenta", "oitenta", "noventa"],
-  hundred: "cento",
+  hundreds: [
+    "cento",
+    "duzentos",
+    "trezentos",
+    "quatrocentos",
+    "quinhentos",
+    "seiscentos",
+    "setecentos",
+    "oitocentos",
+    "novecentos",
+  ],
   thousand: "mil",
-  millionsModifier: (illion, number) => {
+  nillions(num: number) {
+    const [h, t, u] = splitDigits(num).map((n) => n - 1);
+
+    switch (true) {
+      case num < 20:
+        return this.ones[num - 1];
+      case num < 100:
+        return [this.tens[t], this.ones[u]].join(" e ");
+      case num < 1000:
+        return [this.hundreds[h], this.nillions(num % 100)].join(" e ");
+      default:
+        return [
+          this.nillions(Math.floor(num / 1000)),
+          this.thousand,
+          this.nillions(num % 1000),
+        ].join(" ");
+    }
+  },
+  millionsModifier(illion, number) {
     const base = illion.replace(/[ai]$/, "");
-    const name = base === "M" ? "ilh" : "ili"; // 🇧🇷 is better 😞
+    const name = base === "m" ? "ilh" : "ili"; // 🇧🇷 is better 😞
     const suffix = number === 1 ? "ão" : "ões"; // handle plurals
     return `${base}${name}${suffix}`;
   },

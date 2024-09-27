@@ -43,7 +43,7 @@ export function ntoa(
   input: string,
   options: Options = {},
 ): string {
-  const { scale = "short", lang: langString = "en" } = options;
+  const { scale = "short", lang: langString = "en", verbose = false } = options;
   const lang = langs[langString] || langs.en;
 
   const printPart = (val: number, i: number, arr: number[]) => {
@@ -51,7 +51,7 @@ export function ntoa(
 
     const idx = arr.length - i - 2;
 
-    const p1 = lang.nillions(val);
+    const p1 = verbose ? lang.nillions(val) : val;
     const p2 = lang.millions(idx, val);
     return `${p1} ${p2}`.trim();
   };
