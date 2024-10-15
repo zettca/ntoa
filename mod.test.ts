@@ -130,6 +130,20 @@ Deno.test("large verbose numbers", () => {
   );
 });
 
+Deno.test("centillions", () => {
+  assertEquals(
+    ntoa(123 + "000".repeat(199) + 123 + "000".repeat(101)),
+    "123 trecentillion 123 centillion",
+  );
+});
+
+Deno.test("millizillions", () => {
+  assertEquals(
+    ntoa(123123123123 + "000".repeat(1001)),
+    "123 millitrillion 123 millibillion 123 millimillion 123 millinillion",
+  );
+});
+
 Deno.test("intl", async (t) => {
   await t.step("pt", () => {
     assertEquals(

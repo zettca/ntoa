@@ -52,7 +52,7 @@ export function ntoa(
     const idx = arr.length - i - 2;
 
     const p1 = verbose ? lang.nillions(val) : val;
-    const p2 = lang.millions(idx, val);
+    const p2 = lang.zillions(idx, val);
     return `${p1} ${p2}`.trim();
   };
 
