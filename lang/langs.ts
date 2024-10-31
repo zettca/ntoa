@@ -12,6 +12,10 @@ export interface LangObj {
   zillionsModifier: (illion: string, number: number) => string;
   /** illions modifier connector thing */
   mod: (h: number, t: number, u: number) => string;
+  // separators
+  sepTens: string;
+  sepHuns: string;
+  sepThou: string;
 }
 
 function splitDigits(digits: number, pad = 3) {
@@ -32,6 +36,9 @@ const baseLang = {
   hundreds: [],
   thousand: "",
   illion: "illion",
+  sepTens: "-",
+  sepHuns: " ",
+  sepThou: " ",
   illions,
   mod: () => "",
   nillions(num: number) {
@@ -41,15 +48,17 @@ const baseLang = {
       case num < 20:
         return this.ones[num - 1];
       case num < 100:
-        return [this.tens[t], this.ones[u]].join("-");
+        return [this.tens[t], this.ones[u]].join(this.sepTens);
       case num < 1000:
-        return `${this.hundreds[h]} ${this.nillions(num % 100)}`;
+        return [this.hundreds[h], this.nillions(num % 100)]
+          .filter(Boolean)
+          .join(this.sepHuns);
       default:
         return [
           this.nillions(Math.floor(num / 1000)),
           this.thousand,
           this.nillions(num % 1000),
-        ].join(" ");
+        ].join(this.sepThou);
     }
   },
   zillions(index: number, num: number) {
@@ -149,6 +158,48 @@ export const fr: LangObj = {
   },
 };
 
+export const it: LangObj = {
+  ...baseLang,
+  // deno-fmt-ignore
+  ones: [
+    "uno", "due", "tre", "quattro", "cinque", "sei", "sette", "otto", "nove", "dieci",
+    "undici", "dodici", "tredici", "quattordici", "quindici", "sedici", "diciassette", "diciotto", "diciannove",
+  ],
+  // deno-fmt-ignore
+  tens: ["dieci", "venti", "trenta", "quaranta", "cinquanta", "sessanta", "settanta", "ottanta", "novanta"],
+  get hundreds() {
+    return ["cento", ...this.ones.slice(1, 9).map((n) => `${n}cento`)];
+  },
+  thousand: "mila",
+  illion: "ilione",
+  sepTens: "",
+  sepHuns: "",
+  sepThou: "",
+  zillionsModifier(illion) {
+    if (!illion) return "";
+    const base = illion.replace(/[ai]$/, "");
+    return base + this.illion;
+  },
+  mod: (h, t, u) => {
+    // TODO: validate
+    const tensModMad: Record<number, string> = {
+      3: "__ssss____",
+      6: "__ssss__x_",
+      7: "_nmnnnnnm_",
+      9: "_nmnnnnnm_",
+    };
+    const hunsModMap: Record<number, string> = {
+      3: "___sss____",
+      6: "_x_sss__x_",
+      7: "_nnnnnnnm_",
+      9: "_nnnnnnnm_",
+    };
+
+    const modMap = (h && !t) ? hunsModMap[u]?.[h] : tensModMad[u]?.[t];
+    return modMap?.replace("_", "") || "";
+  },
+};
+
 export const pt: LangObj = {
   ...baseLang,
   // deno-fmt-ignore
@@ -161,28 +212,10 @@ export const pt: LangObj = {
   // deno-fmt-ignore
   hundreds: ["cento", "duzentos", "trezentos", "quatrocentos", "quinhentos", "seiscentos", "setecentos", "oitocentos", "novecentos"],
   thousand: "mil",
-  nillions(num: number) {
-    const [h, t, u] = splitDigits(num).map((n) => n - 1);
-
-    switch (true) {
-      case num < 20:
-        return this.ones[num - 1];
-      case num < 100:
-        return [this.tens[t], this.ones[u]].join(" e ");
-      case num === 100:
-        return "cem";
-      case num < 1000:
-        return [this.hundreds[h], this.nillions(num % 100)].join(" e ");
-      case num === 1000:
-        return this.thousand;
-      default:
-        return [
-          this.nillions(Math.floor(num / 1000)),
-          this.thousand,
-          this.nillions(num % 1000),
-        ].join(" ");
-    }
-  },
+  sepTens: " e ",
+  sepHuns: " e ",
+  sepThou: " ",
+  // TODO: handle "cem"
   zillionsModifier(illion, number) {
     const base = illion.replace(/[ai]$/, "");
     const name = base === "m" ? "ilh" : "ili"; // 🇧🇷 is better 😞
@@ -194,5 +227,6 @@ export const pt: LangObj = {
 export default {
   en,
   fr,
+  it,
   pt,
 };
