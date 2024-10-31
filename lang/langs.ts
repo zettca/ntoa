@@ -10,8 +10,8 @@ export interface LangObj {
   /** Print the illions part (eg. trillion, centillion, etc) */
   zillions: (index: number, num: number) => string;
   zillionsModifier: (illion: string, number: number) => string;
-  /** illions modifier connector thing */
-  mod: (h: number, t: number, u: number) => string;
+  modMapTens: Record<number, string>;
+  modMapHuns: Record<number, string>;
   // separators
   sepTens: string;
   sepHuns: string;
@@ -39,8 +39,9 @@ const baseLang = {
   sepTens: "-",
   sepHuns: " ",
   sepThou: " ",
+  modMapTens: {},
+  modMapHuns: {},
   illions,
-  mod: () => "",
   nillions(num: number) {
     const [h, t, u] = splitDigits(num).map((n) => n - 1);
 
@@ -75,7 +76,12 @@ const baseLang = {
       return zeros[k] + "illi" + (i === 0 ? "nillion" : this.zillions(i, num));
     }
 
-    const value = [units[u], this.mod(h, t, u), tens[t], huns[h]]
+    const modMap = (h && !t)
+      ? this.modMapHuns[u]?.[h]
+      : this.modMapTens[u]?.[t];
+    const mod = modMap?.replace("_", "") || "";
+
+    const value = [units[u], mod, tens[t], huns[h]]
       .filter(Boolean)
       .join("");
 
@@ -101,22 +107,17 @@ export const en: LangObj = {
   },
   thousand: "thousand",
   illions,
-  mod: (h, t, u) => {
-    const tensModMad: Record<number, string> = {
-      3: "__ssss__x_",
-      6: "_xssss__x_",
-      7: "_nmnnnnnm_",
-      9: "_nmnnnnnm_",
-    };
-    const hunsModMap: Record<number, string> = {
-      3: "_x_sss__x_",
-      6: "_x_sss__x_",
-      7: "_nnnnnnnm_",
-      9: "_nnnnnnnm_",
-    };
-
-    const modMap = (h && !t) ? hunsModMap[u]?.[h] : tensModMad[u]?.[t];
-    return modMap?.replace("_", "") || "";
+  modMapTens: {
+    3: "__ssss__x_",
+    6: "_xssss__x_",
+    7: "_nmnnnnnm_",
+    9: "_nmnnnnnm_",
+  },
+  modMapHuns: {
+    3: "_x_sss__x_",
+    6: "_x_sss__x_",
+    7: "_nnnnnnnm_",
+    9: "_nnnnnnnm_",
   },
 };
 
@@ -139,22 +140,17 @@ export const fr: LangObj = {
     const suffix = number === 1 ? "" : "s";
     return base + this.illion + suffix;
   },
-  mod: (h, t, u) => {
-    const tensModMad: Record<number, string> = {
-      3: "__ssss____",
-      6: "__ssss__x_",
-      7: "_nmnnnnnm_",
-      9: "_nmnnnnnm_",
-    };
-    const hunsModMap: Record<number, string> = {
-      3: "___sss____",
-      6: "_x_sss__x_",
-      7: "_nnnnnnnm_",
-      9: "_nnnnnnnm_",
-    };
-
-    const modMap = (h && !t) ? hunsModMap[u]?.[h] : tensModMad[u]?.[t];
-    return modMap?.replace("_", "") || "";
+  modMapTens: {
+    3: "__ssss____",
+    6: "__ssss__x_",
+    7: "_nmnnnnnm_",
+    9: "_nmnnnnnm_",
+  },
+  modMapHuns: {
+    3: "___sss____",
+    6: "_x_sss__x_",
+    7: "_nnnnnnnm_",
+    9: "_nnnnnnnm_",
   },
 };
 
@@ -180,23 +176,18 @@ export const it: LangObj = {
     const base = illion.replace(/[ai]$/, "");
     return base + this.illion;
   },
-  mod: (h, t, u) => {
-    // TODO: validate
-    const tensModMad: Record<number, string> = {
-      3: "__ssss____",
-      6: "__ssss__x_",
-      7: "_nmnnnnnm_",
-      9: "_nmnnnnnm_",
-    };
-    const hunsModMap: Record<number, string> = {
-      3: "___sss____",
-      6: "_x_sss__x_",
-      7: "_nnnnnnnm_",
-      9: "_nnnnnnnm_",
-    };
-
-    const modMap = (h && !t) ? hunsModMap[u]?.[h] : tensModMad[u]?.[t];
-    return modMap?.replace("_", "") || "";
+  // TODO: validate modMaps
+  modMapTens: {
+    3: "__ssss____",
+    6: "__ssss__x_",
+    7: "_nmnnnnnm_",
+    9: "_nmnnnnnm_",
+  },
+  modMapHuns: {
+    3: "___sss____",
+    6: "_x_sss__x_",
+    7: "_nnnnnnnm_",
+    9: "_nnnnnnnm_",
   },
 };
 
@@ -215,7 +206,10 @@ export const pt: LangObj = {
   sepTens: " e ",
   sepHuns: " e ",
   sepThou: " ",
-  // TODO: handle "cem"
+  nillions(num: number) {
+    if (num === 100) return "cem";
+    return baseLang.nillions.call(this, num);
+  },
   zillionsModifier(illion, number) {
     const base = illion.replace(/[ai]$/, "");
     const name = base === "m" ? "ilh" : "ili"; // 🇧🇷 is better 😞
