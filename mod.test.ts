@@ -195,4 +195,21 @@ Deno.test("intl", async (t) => {
       "centoventitremilaquattrocentocinquantasei milione settecentoottantanove mila",
     );
   });
+
+  await t.step("es", () => {
+    assertEquals(
+      ntoa("123456789000", { lang: "es" }),
+      "123 billónes 456 millónes 789 mil",
+    );
+
+    assertEquals(
+      ntoa("123456789000", { lang: "es", scale: "long" }),
+      "123456 millónes 789 mil",
+    );
+
+    assertEquals(
+      ntoa("123456789000", { lang: "es", scale: "long", verbose: true }),
+      "ciento veinte y tres mil cuatrocientos cincuenta y seis millónes setecientos ochenta y nueve mil",
+    );
+  });
 });

@@ -176,18 +176,29 @@ export const it: LangObj = {
     const base = illion.replace(/[ai]$/, "");
     return base + this.illion;
   },
-  // TODO: validate modMaps
-  modMapTens: {
-    3: "__ssss____",
-    6: "__ssss__x_",
-    7: "_nmnnnnnm_",
-    9: "_nmnnnnnm_",
-  },
-  modMapHuns: {
-    3: "___sss____",
-    6: "_x_sss__x_",
-    7: "_nnnnnnnm_",
-    9: "_nnnnnnnm_",
+};
+
+export const es: LangObj = {
+  ...baseLang,
+  // deno-fmt-ignore
+  ones: [
+    "uno", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve", "diez",
+    "once", "doce", "trece", "catorce", "quince", "dieciséis", "diecisiete", "dieciocho", "diecinueve",
+  ],
+  // deno-fmt-ignore
+  tens: ["diez", "veinte", "treinta", "cuarenta", "cincuenta", "sesenta", "setenta", "ochenta", "noventa"],
+  // deno-fmt-ignore
+  hundreds: ["ciento", "doscientos", "trescientos", "cuatrocientos", "quinientos", "seiscientos", "setecientos", "ochocientos", "novecientos"],
+  thousand: "mil",
+  illion: "illón",
+  sepTens: " y ",
+  sepHuns: " ",
+  sepThou: " ",
+  zillionsModifier(illion, number) {
+    if (!illion) return "";
+    const base = illion.replace(/[ai]$/, "");
+    const suffix = number === 1 ? "" : "es";
+    return base + this.illion + suffix;
   },
 };
 
@@ -214,7 +225,7 @@ export const pt: LangObj = {
     const base = illion.replace(/[ai]$/, "");
     const name = base === "m" ? "ilh" : "ili"; // 🇧🇷 is better 😞
     const suffix = number === 1 ? "ão" : "ões"; // handle plurals
-    return `${base}${name}${suffix}`;
+    return base + name + suffix;
   },
 };
 
@@ -222,5 +233,6 @@ export default {
   en,
   fr,
   it,
+  es,
   pt,
 };
