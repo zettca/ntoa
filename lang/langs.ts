@@ -4,7 +4,7 @@ export interface LangObj {
   hundreds: string[];
   thousand: string;
   illions: typeof illions;
-  illion: string;
+  illion: [string, string];
   /** Print the small part (eg. ten, hundreds, etc) */
   nillions: (val: number) => string;
   /** Print the illions part (eg. trillion, centillion, etc) */
@@ -12,10 +12,8 @@ export interface LangObj {
   zillionsModifier: (illion: string, number: number) => string;
   modMapTens: Record<number, string>;
   modMapHuns: Record<number, string>;
-  // separators
-  sepTens: string;
-  sepHuns: string;
-  sepThou: string;
+  /** separators [tens, hundreds, thousands] */
+  separators: [string, string, string];
 }
 
 function splitDigits(digits: number, pad = 3) {
@@ -35,10 +33,8 @@ const baseLang = {
   tens: [],
   hundreds: [],
   thousand: "",
-  illion: "illion",
-  sepTens: "-",
-  sepHuns: " ",
-  sepThou: " ",
+  illion: ["illion", "illion"],
+  separators: ["-", " ", " "],
   modMapTens: {},
   modMapHuns: {},
   illions,
@@ -49,17 +45,17 @@ const baseLang = {
       case num < 20:
         return this.ones[num - 1];
       case num < 100:
-        return [this.tens[t], this.ones[u]].join(this.sepTens);
+        return [this.tens[t], this.ones[u]].join(this.separators[0]);
       case num < 1000:
         return [this.hundreds[h], this.nillions(num % 100)]
           .filter(Boolean)
-          .join(this.sepHuns);
+          .join(this.separators[1]);
       default:
         return [
           this.nillions(Math.floor(num / 1000)),
           this.thousand,
           this.nillions(num % 1000),
-        ].join(this.sepThou);
+        ].join(this.separators[2]);
     }
   },
   zillions(index: number, num: number) {
@@ -87,9 +83,10 @@ const baseLang = {
 
     return this.zillionsModifier(value, num);
   },
-  zillionsModifier(illion: string) {
+  zillionsModifier(illion: string, number: number) {
     if (!illion) return "";
-    return illion.replace(/[ai]$/, "") + this.illion;
+    const base = illion.replace(/[ai]$/, "");
+    return base + (number === 1 ? this.illion[0] : this.illion[1]);
   },
 } satisfies LangObj;
 
@@ -134,12 +131,7 @@ export const fr: LangObj = {
     return ["cent", ...this.ones.slice(1, 9).map((n) => `${n} cent`)];
   },
   thousand: "mille",
-  zillionsModifier(illion, number) {
-    if (!illion) return "";
-    const base = illion.replace(/[ai]$/, "");
-    const suffix = number === 1 ? "" : "s";
-    return base + this.illion + suffix;
-  },
+  illion: ["illion", "illions"],
   modMapTens: {
     3: "__ssss____",
     6: "__ssss__x_",
@@ -167,15 +159,8 @@ export const it: LangObj = {
     return ["cento", ...this.ones.slice(1, 9).map((n) => `${n}cento`)];
   },
   thousand: "mila",
-  illion: "ilione",
-  sepTens: "",
-  sepHuns: "",
-  sepThou: "",
-  zillionsModifier(illion) {
-    if (!illion) return "";
-    const base = illion.replace(/[ai]$/, "");
-    return base + this.illion;
-  },
+  illion: ["ilione", "ilioni"],
+  separators: ["", "", ""],
 };
 
 export const es: LangObj = {
@@ -190,16 +175,8 @@ export const es: LangObj = {
   // deno-fmt-ignore
   hundreds: ["ciento", "doscientos", "trescientos", "cuatrocientos", "quinientos", "seiscientos", "setecientos", "ochocientos", "novecientos"],
   thousand: "mil",
-  illion: "illón",
-  sepTens: " y ",
-  sepHuns: " ",
-  sepThou: " ",
-  zillionsModifier(illion, number) {
-    if (!illion) return "";
-    const base = illion.replace(/[ai]$/, "");
-    const suffix = number === 1 ? "" : "es";
-    return base + this.illion + suffix;
-  },
+  illion: ["illón", "illónes"],
+  separators: [" y ", " ", " "],
 };
 
 export const pt: LangObj = {
@@ -214,9 +191,8 @@ export const pt: LangObj = {
   // deno-fmt-ignore
   hundreds: ["cento", "duzentos", "trezentos", "quatrocentos", "quinhentos", "seiscentos", "setecentos", "oitocentos", "novecentos"],
   thousand: "mil",
-  sepTens: " e ",
-  sepHuns: " e ",
-  sepThou: " ",
+  illion: ["ilião", "iliões"], // unused
+  separators: [" e ", " e ", " "],
   nillions(num: number) {
     if (num === 100) return "cem";
     return baseLang.nillions.call(this, num);
